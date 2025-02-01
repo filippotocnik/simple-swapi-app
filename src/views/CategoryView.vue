@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
-import { useCategoryStore, type Category } from '../stores/category'
+import { useCategoryStore } from '../stores/category'
+import { type Category } from '@/models/category.interfaces'
 import { storeToRefs } from 'pinia'
 import ItemDetails from '@/components/ItemDetails.vue'
 import Loading from '@/components/Loading.vue'

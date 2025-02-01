@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useCategoryStore, type Category } from '@/stores/category'
+import { useCategoryStore } from '@/stores/category'
+import { type Category } from '@/models/category.interfaces'
 import { computed } from 'vue'
 
 const props = defineProps<{

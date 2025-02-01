@@ -1,29 +1,8 @@
 import { ref, type Ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-
-export interface Category {
-  name: string
-  type: string
-  hasOpenDetails?: boolean
-  hair_color?: string
-  birth_year?: string
-  eye_color?: string
-  diameter?: string
-  climate?: string
-  terrain?: string
-  manufacturer?: string
-  max_atmosphering_speed?: string
-  hyperdrive_rating?: string
-}
+import { type CategoryRes } from '@/models/category.interfaces'
 
 export const useCategoryStore = defineStore('category', () => {
-  interface CategoryRes {
-    count: number
-    next: string
-    previous: string
-    results: Category[]
-  }
-
   const url = 'https://swapi.dev/api/'
 
   const detailsMapper: Record<string, Record<string, string>[]> = {
