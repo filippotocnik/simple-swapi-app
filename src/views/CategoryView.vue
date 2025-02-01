@@ -6,6 +6,7 @@ import { type Category } from '@/models/category.interfaces'
 import { storeToRefs } from 'pinia'
 import ItemDetails from '@/components/ItemDetails.vue'
 import Loading from '@/components/Loading.vue'
+import BackArrowIcon from '@/components/icons/BackArrowIcon.vue'
 
 const route = useRoute()
 
@@ -41,20 +42,7 @@ const toggleItemDetails = (index: number) => {
   <header>
     <RouterLink to="/">
       <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          class="h-6 w-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M7 16l-4-4m0 0l4-4m-4 4h18"
-          ></path>
-        </svg>
+        <back-arrow-icon />
       </div>
     </RouterLink>
     <h1 class="title">{{ route.params.categoryName }}</h1>
@@ -69,9 +57,21 @@ const toggleItemDetails = (index: number) => {
       <div v-for="(item, index) in categoryItems" class="min-w-xl">
         <item-details :item="item" :index="index" @toggleDetails="toggleItemDetails" />
       </div>
-      <div>
-        <button class="" :disabled="isPrevDisabled" @click="showLess">Prev page</button>
-        <button :disabled="isNextDisabled" @click="showMore">Next page</button>
+      <div class="flex justify-between w-1/2 mt-5">
+        <button
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 disabled:pointer-events-none"
+          :disabled="isPrevDisabled"
+          @click="showLess"
+        >
+          Prev page
+        </button>
+        <button
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 disabled:pointer-events-none"
+          :disabled="isNextDisabled"
+          @click="showMore"
+        >
+          Next page
+        </button>
       </div>
     </div>
   </template>
