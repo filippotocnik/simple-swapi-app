@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center pt-4" role="status">
+  <div class="flex justify-center pt-6" role="status">
     <svg
       aria-hidden="true"
       class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
