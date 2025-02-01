@@ -1,15 +1,16 @@
 import { ref, type Ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
+export interface Category {
+  name: string
+}
+
 export const useCategoryStore = defineStore('category', () => {
   interface CategoryRes {
     count: number
     next: string
     previous: string
     results: Category[]
-  }
-  interface Category {
-    name: string
   }
 
   const url = 'https://swapi.dev/api/'

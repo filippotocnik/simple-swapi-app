@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCategoryStore } from '../stores/category'
 import { storeToRefs } from 'pinia'
+import ItemDetails from '@/components/ItemDetails.vue'
 
 const route = useRoute()
 
@@ -20,10 +21,18 @@ watchEffect(() => {
   <template v-else>
     <div>type: {{ route.params.categoryName }}</div>
 
-    <div v-for="item in selectedCategoryItems">{{ item.name }}</div>
+    <div v-for="item in selectedCategoryItems">
+      <item-details :item="item" />
+    </div>
 
     <div>
-      <button :disabled="isPrevDisabled" @click="showLess">Prev page</button>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        :disabled="isPrevDisabled"
+        @click="showLess"
+      >
+        Prev page
+      </button>
       <button :disabled="isNextDisabled" @click="showMore">Next page</button>
     </div>
   </template>
