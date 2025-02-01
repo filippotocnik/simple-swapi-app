@@ -3,6 +3,17 @@ import { defineStore } from 'pinia'
 
 export interface Category {
   name: string
+  type: string
+  hasOpenDetails?: boolean
+  hair_color?: string
+  birth_year?: string
+  eye_color?: string
+  diameter?: string
+  climate?: string
+  terrain?: string
+  manufacturer?: string
+  max_atmosphering_speed?: string
+  hyperdrive_rating?: string
 }
 
 export const useCategoryStore = defineStore('category', () => {
@@ -14,6 +25,52 @@ export const useCategoryStore = defineStore('category', () => {
   }
 
   const url = 'https://swapi.dev/api/'
+
+  const detailsMapper: Record<string, Record<string, string>[]> = {
+    people: [
+      {
+        key: 'hair_color',
+        label: 'Hair Color',
+      },
+      {
+        key: 'birth_year',
+        label: 'Birth Year',
+      },
+      {
+        key: 'eye_color',
+        label: 'Eye Color',
+      },
+    ],
+    planets: [
+      {
+        key: 'diameter',
+        label: 'Diameter',
+      },
+      {
+        key: 'climate',
+        label: 'Climate',
+      },
+      {
+        key: 'terrain',
+        label: 'Terrain',
+      },
+    ],
+    starships: [
+      {
+        key: 'manufacturer',
+        label: 'Manufacturer',
+      },
+      {
+        key: 'max_atmosphering_speed',
+        label: 'Max Atmosphering Speed',
+      },
+      {
+        key: 'hyperdrive_rating',
+        label: 'Hyperdrive Rating',
+      },
+    ],
+  }
+
   const selectedCategoryRes: Ref<CategoryRes | null> = ref(null)
   const loading = ref(false)
 
@@ -60,5 +117,6 @@ export const useCategoryStore = defineStore('category', () => {
     showLess,
     isNextDisabled,
     isPrevDisabled,
+    detailsMapper,
   }
 })
