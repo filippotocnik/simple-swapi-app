@@ -1,1 +1,1 @@
-# mesi-fe-assignment
+# Simple swapi app
