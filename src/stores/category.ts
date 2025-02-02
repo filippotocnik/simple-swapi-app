@@ -59,6 +59,12 @@ export const useCategoryStore = defineStore('category', () => {
     return selectedCategoryRes.value?.results || []
   })
 
+  const openDetailsItemName = ref<string | null>(null)
+
+  function setOpenDetailsItemName(name: string | null) {
+    openDetailsItemName.value = name
+  }
+
   const selectedCategoryDetails = computed(() => {
     return detailsMapper[selectedCategory.value] || []
   })
@@ -93,6 +99,7 @@ export const useCategoryStore = defineStore('category', () => {
     fetch(selectedCategoryRes.value?.next || '')
       .then((res) => res.json())
       .then((data: CategoryRes) => {
+        setOpenDetailsItemName(null)
         selectedCategoryRes.value = data
         loading.value = false
       })
@@ -102,6 +109,7 @@ export const useCategoryStore = defineStore('category', () => {
     fetch(selectedCategoryRes.value?.previous || '')
       .then((res) => res.json())
       .then((data: CategoryRes) => {
+        setOpenDetailsItemName(null)
         selectedCategoryRes.value = data
         loading.value = false
       })
@@ -117,5 +125,7 @@ export const useCategoryStore = defineStore('category', () => {
     isPrevDisabled,
     detailsMapper,
     filters,
+    openDetailsItemName,
+    setOpenDetailsItemName,
   }
 })

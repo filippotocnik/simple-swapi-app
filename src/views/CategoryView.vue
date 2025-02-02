@@ -41,19 +41,9 @@ watchEffect(() => {
 watchEffect(() => {
   categoryItems.value = selectedCategoryItems.value.map((item) => ({
     ...item,
-    hasOpenDetails: false,
     type: route.params.categoryName as string,
   }))
 })
-
-const toggleItemDetails = (index: number) => {
-  categoryItems.value = categoryItems.value.map((item, i) => {
-    return {
-      ...item,
-      hasOpenDetails: i === index ? !item.hasOpenDetails : false,
-    }
-  })
-}
 </script>
 
 <template>
@@ -93,7 +83,7 @@ const toggleItemDetails = (index: number) => {
       </div>
       <div class="flex flex-col items-center ml-6">
         <div v-for="(item, index) in filteredCollection" class="min-w-xl">
-          <item-details :item="item" :index="index" @toggleDetails="toggleItemDetails" />
+          <item-details :item="item" :index="index" />
         </div>
         <div class="flex justify-between w-1/2 mt-5">
           <button

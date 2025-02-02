@@ -4,17 +4,29 @@ import { type ICategoryItem } from '@/models/category.interfaces'
 import { computed } from 'vue'
 import PlusIcon from '@/components/icons/PlusIcon.vue'
 import MinusIcon from '@/components/icons/MinusIcon.vue'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   item: ICategoryItem
   index: number
 }>()
 
-const emit = defineEmits<{
-  toggleDetails: [index: number]
-}>()
+const store = useCategoryStore()
+const { openDetailsItemName } = storeToRefs(store)
 
-const { detailsMapper } = useCategoryStore()
+const hasOpenDetails = computed(() => {
+  return props.item.name === openDetailsItemName.value
+})
+
+const toggleDetails = () => {
+  if (hasOpenDetails.value) {
+    setOpenDetailsItemName(null)
+  } else {
+    setOpenDetailsItemName(props.item.name)
+  }
+}
+
+const { detailsMapper, setOpenDetailsItemName } = store
 
 const itemDetails = computed(() => {
   return detailsMapper[props.item.type].map((itemDetails) => ({
@@ -27,12 +39,12 @@ const itemDetails = computed(() => {
 <template>
   <div class="border-b border-slate-200">
     <button
-      @click="emit('toggleDetails', index)"
+      @click="toggleDetails()"
       class="cursor-pointer w-full flex justify-between items-center py-5 text-slate-800"
     >
       <span class="font-bold">{{ props.item.name }}</span>
       <span class="text-slate-800">
-        <template v-if="props.item.hasOpenDetails">
+        <template v-if="hasOpenDetails">
           <minus-icon />
         </template>
         <template v-else>
@@ -40,7 +52,7 @@ const itemDetails = computed(() => {
         </template>
       </span>
     </button>
-    <div v-if="props.item.hasOpenDetails">
+    <div v-if="hasOpenDetails">
       <div v-for="item in itemDetails" class="pb-5 text-sm">
         <span class="text-slate-800 pr-2">{{ item.label }}:</span>
         <span class="text-slate-500">{{ item.value }}</span>
