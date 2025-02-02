@@ -1,4 +1,4 @@
-import { ref, type Ref, computed } from 'vue'
+import { ref, type Ref, computed, type ComputedRef } from 'vue'
 import { defineStore } from 'pinia'
 import { type CategoryRes } from '@/models/category.interfaces'
 
@@ -50,18 +50,37 @@ export const useCategoryStore = defineStore('category', () => {
     ],
   }
 
-  const selectedCategoryRes: Ref<CategoryRes | null> = ref(null)
+  const selectedCategory = ref('')
+
   const loading = ref(false)
+  const selectedCategoryRes: Ref<CategoryRes | null> = ref(null)
 
   const selectedCategoryItems = computed(() => {
     return selectedCategoryRes.value?.results || []
   })
 
+  const selectedCategoryDetails = computed(() => {
+    return detailsMapper[selectedCategory.value] || []
+  })
+
+  const filters = computed(() => {
+    return selectedCategoryDetails.value.map(({ key, label }) => {
+      return {
+        label,
+        key,
+        values: selectedCategoryItems.value
+          .map((item) => item[key as keyof typeof item])
+          .filter((item, index, arr) => arr?.indexOf(item) === index),
+      }
+    })
+  })
+
   const isNextDisabled = computed(() => selectedCategoryRes.value?.next === null)
   const isPrevDisabled = computed(() => selectedCategoryRes.value?.previous === null)
 
-  const getCategoryItems = (categoryName: string) => {
+  function getCategoryItems(categoryName: string) {
     loading.value = true
+    selectedCategory.value = categoryName
     fetch(`${url}${categoryName}`)
       .then((res) => res.json())
       .then((data: CategoryRes) => {
@@ -70,7 +89,7 @@ export const useCategoryStore = defineStore('category', () => {
       })
   }
 
-  const showMore = () => {
+  function showMore() {
     fetch(selectedCategoryRes.value?.next || '')
       .then((res) => res.json())
       .then((data: CategoryRes) => {
@@ -79,7 +98,7 @@ export const useCategoryStore = defineStore('category', () => {
       })
   }
 
-  const showLess = () => {
+  function showLess() {
     fetch(selectedCategoryRes.value?.previous || '')
       .then((res) => res.json())
       .then((data: CategoryRes) => {
@@ -97,5 +116,6 @@ export const useCategoryStore = defineStore('category', () => {
     isNextDisabled,
     isPrevDisabled,
     detailsMapper,
+    filters,
   }
 })

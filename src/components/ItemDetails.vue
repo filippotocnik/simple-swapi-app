@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useCategoryStore } from '@/stores/category'
-import { type Category } from '@/models/category.interfaces'
+import { type ICategoryItem } from '@/models/category.interfaces'
 import { computed } from 'vue'
 import PlusIcon from '@/components/icons/PlusIcon.vue'
 import MinusIcon from '@/components/icons/MinusIcon.vue'
 
 const props = defineProps<{
-  item: Category
+  item: ICategoryItem
   index: number
 }>()
 
@@ -19,7 +19,7 @@ const { detailsMapper } = useCategoryStore()
 const itemDetails = computed(() => {
   return detailsMapper[props.item.type].map((itemDetails) => ({
     label: itemDetails.label,
-    value: props.item[itemDetails.key as keyof Category],
+    value: props.item[itemDetails.key as keyof ICategoryItem],
   }))
 })
 </script>

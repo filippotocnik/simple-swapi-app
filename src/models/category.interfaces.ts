@@ -16,7 +16,7 @@ interface StarshipDetails {
   hyperdrive_rating?: string
 }
 
-export interface Category extends PersonDetails, PlanetDetails, StarshipDetails {
+export interface ICategoryItem extends PersonDetails, PlanetDetails, StarshipDetails {
   name: string
   type: string
   hasOpenDetails?: boolean
@@ -26,5 +26,9 @@ export interface CategoryRes {
   count: number
   next: string
   previous: string
-  results: Category[]
+  results: ICategoryItem[]
+}
+
+export interface ISelectedFilters {
+  [key: string]: string[]
 }
